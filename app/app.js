@@ -24,7 +24,7 @@ Web3 = require('web3')
 web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 
 //web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io"));
-var contractAddress = "0x276c0D6c760E63a3ED4Ef8496C35898A1aB0e0de"
+var contractAddress = "0xc9ba47f66287c2c6c073ff66a8f62a94c12f6d16"
 //"0x7aAeE0875C13494c72D16443A968821a03aF94B1";
 var abiDefinition = [
   {
@@ -72,7 +72,7 @@ var abiDefinition = [
         "type": "uint256"
       }
     ],
-    "name": "certificaeAtIndex",
+    "name": "certificateAtIndex",
     "outputs": [
       {
         "name": "",
@@ -202,26 +202,26 @@ app.post('/entry', function(req, res){
       name = req.body.Name;
       year = req.body.Year;
       result = req.body.Result;
-      console.log(req.body);
-      
-      // smartContract.putCertificateData( rollNo, name, year, result,
-      //                                   {from:web3.eth.accounts[0], gas:3000000},
-      //                                   function(err, txn){
+      //console.log(req.body);
 
-      //                           if (err) 
-      //                               message = "Error occured.." 
-      //                            else 
-      //                               message = "Saved successfully.. Txn Ref : " + txn          
+      smartContract.putCertificateData( rollNo, name, year, result,
+                                        {from:web3.eth.accounts[0], gas:3000000},
+                                        function(err, txn){
+
+                                if (err) 
+                                    message = "Error occured.." 
+                                 else 
+                                    message = "Saved successfully.. Txn Ref : " + txn          
                                 
-      //                           res.render('entry', { 
-      //                                 rollNo: rollNo ,
-      //                                 name: name,
-      //                                 year: year,
-      //                                 result: result,
-      //                                 message: message
-      //                           }); //render
+                                res.render('entry', { 
+                                      rollNo: rollNo ,
+                                      name: name,
+                                      year: year,
+                                      result: result,
+                                      message: message
+                                }); //render
 
-      // }); //smartcontract
+      }); //smartcontract
 
   }); 
 
@@ -275,7 +275,7 @@ app.get('/list', function(req, res){
 
         for(i=0; i<countCertificates; i++)
         {
-          var rollNo = smartContract.certificaeAtIndex(i).toNumber();
+          var rollNo = smartContract.certificateAtIndex(i).toNumber();
           var certificateData = smartContract.getCertificateData(rollNo)
           certificateData[3] = rollNo;
           console.log(certificateData);
